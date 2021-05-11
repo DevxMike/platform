@@ -23,11 +23,11 @@ int main(void){
 
     init_main(&diode);
     sei();
-    
+
     while(1){
         switch(diode.state){
-            case 0: if(!diode.tim) { diode.state = 1; diode.tim = 1000; PORTD &= ~(1 << DEBUG_DIODE); } break;
-            case 1: if(!diode.tim) { diode.state = 0; diode.tim = 1000; PORTD |= (1 << DEBUG_DIODE); } break;
+            case 0: if(!diode.tim) { diode.state = 1; diode.tim = 1000; PORTD &= ~(1 << DEBUG_DIODE); UART_puts("\rDiode off\n"); } break;
+            case 1: if(!diode.tim) { diode.state = 0; diode.tim = 1000; PORTD |= (1 << DEBUG_DIODE); UART_puts("\rDiode on\n"); } break;
         }
 
         if(diode.tim) --diode.tim;
@@ -40,6 +40,7 @@ int main(void){
 }
 
 void init_main(debug* d){
+    init_UART(UBRR_VALUE);
     init_cycle_timer();
     //just a debug case
     DDRD |= (1 << DEBUG_DIODE);

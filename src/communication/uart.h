@@ -14,4 +14,10 @@ SOFTWARE.
 #ifndef uart_h_
 #define uart_h_
 
+#include <avr/io.h>
+#include "../../config/macros.h"
+
+void init_UART(uint8_t ubrr);
+void UART_putc(char c);
+void UART_puts(const char* string);
 #endif

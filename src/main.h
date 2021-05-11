@@ -15,6 +15,7 @@ SOFTWARE.
 #define main_h_
 
 #include "time/timers.h"
+#include "communication/uart.h"
 #include "../config/macros.h"
 
 typedef struct{

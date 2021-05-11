@@ -12,3 +12,26 @@ SOFTWARE.
 */
 
 #include "uart.h"
+
+void init_UART(uint8_t ubrr){ //9600 baud, config: 8, n, 1
+    /* Set baud rate */
+    UBRRH = (uint8_t)(ubrr>>8);
+    UBRRL = (uint8_t)ubrr;
+    /* Enable receiver and transmitter */
+    UCSRB = (1<<RXEN)|(1<<TXEN);
+    /* Set frame format: 8data, 1stop bit */
+    UCSRC = (1<<URSEL)|(3<<UCSZ0);
+}
+
+void UART_putc(char c){
+    while (!( UCSRA & (1<<UDRE))){
+        continue;
+    }
+    UDR = c;
+}
+
+void UART_puts(const char* string){
+    while(*string){
+        UART_putc(*string++);
+    }
+}
