@@ -14,4 +14,9 @@ SOFTWARE.
 #ifndef macros_h_
 #define macros_h_
 
+#define TIMER2_COMPARE_VAL 0x7C //1kHz cycle duration
+#define TCCR2_CONFIG 0x0D //CTC mode, 128 prescaler
+#define TIMER2_TIMSK_CONFIG 0x80 //CTC interrupt enable
+#define DEBUG_DIODE 0x04
+
 #endif

@@ -14,4 +14,14 @@ SOFTWARE.
 #ifndef main_h_
 #define main_h_
 
+#include "time/timers.h"
+#include "../config/macros.h"
+
+typedef struct{
+    uint16_t tim;
+    uint8_t state;
+}debug;
+
+void init_main(debug* d);
+
 #endif

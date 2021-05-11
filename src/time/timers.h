@@ -13,5 +13,9 @@ SOFTWARE.
 
 #ifndef timers_h_
 #define timers_h_
+#include <avr/io.h>
+#include "../../config/macros.h"
+
+void init_cycle_timer(void);
 
 #endif
