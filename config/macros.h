@@ -28,7 +28,7 @@ SOFTWARE.
 #define TRANSMIT_INFO_CMD_START 'I'
 #define CMD_READY 0x01
 #define TRANSMISSION_ENABLE 0x02
-
+#define ANGLE_ERROR 0x190
 /*
     set angle: ABCDEK
         where

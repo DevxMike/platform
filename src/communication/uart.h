@@ -24,4 +24,5 @@ void UART_pushc(char c);
 const char* UART_gets(void);
 void UART_flush(void);
 const char* int_to_str(int16_t value);
+int16_t str_to_int(const char* string);
 #endif

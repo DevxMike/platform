@@ -14,6 +14,7 @@ SOFTWARE.
 #include "uart.h"
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 typedef struct{
     char string[20];
@@ -82,4 +83,18 @@ void UART_flush(void){
 const char* int_to_str(int16_t value){
     char buffer[20];
     return itoa(value, buffer, 10);
+}
+
+int16_t str_to_int(const char* string){
+    int8_t sign;
+
+    for(const char* start = &string[0]; *start; ++start){
+        if(!isdigit(*start)){
+            return ANGLE_ERROR;
+        }
+    }
+
+    sign = (*string == ANGLE_SIGN? -1 : 1);
+
+    return (int16_t)strtoul(&string[1], 0L, 10) * (int16_t)sign;
 }

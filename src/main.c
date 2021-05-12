@@ -33,14 +33,18 @@ int main(void){
             strcpy(vars.command, UART_gets());
             switch(vars.command[0]){
                 case SET_ANGLE_CMD_START: 
-                
-                
+                    if((vars.angle = str_to_int(&vars.command[1])) == ANGLE_ERROR){
+                        UART_puts("An error occured while receiving new angle value. Please, try again.\n\r");
+                    }
+                    else{
+                        UART_puts("New angle set to: "); UART_puts(int_to_str(vars.angle)); UART_puts("\n\r");
+                    }
                 break;
                 
                 case TRANSMIT_INFO_CMD_START: 
                 switch(vars.command[1]){
                     case 'A': 
-                        UART_puts("Angle set: "); UART_puts(int_to_str(vars.angle)); 
+                        UART_puts("Angle set to: "); UART_puts(int_to_str(vars.angle)); 
                         UART_puts(", Current angle: "); UART_puts(int_to_str(vars.current)); UART_puts("\n\r"); 
                     break; 
                     case 'E': main_flags &= ~TRANSMISSION_ENABLE; UART_puts("Transmission disabled.\n\r"); break;
@@ -64,7 +68,7 @@ int main(void){
         switch(vars.cmd_automata.state){
             case 0: if(!vars.cmd_automata.tim && (TRANSMISSION_ENABLE & main_flags)) vars.cmd_automata.state = 1; break;
             case 1: 
-                UART_puts("Angle set: "); UART_puts(int_to_str(vars.angle)); 
+                UART_puts("Angle set to: "); UART_puts(int_to_str(vars.angle)); 
                 UART_puts(", Current angle: "); UART_puts(int_to_str(vars.current)); UART_puts("\n\r"); 
                 vars.cmd_automata.state = 0; vars.cmd_automata.tim = 1000;
             break;
@@ -77,7 +81,7 @@ int main(void){
 
         if(diode.tim) --diode.tim;
         if(vars.cmd_automata.tim) --vars.cmd_automata.tim;
-        
+
         while(!cycle){
             continue;
         }
