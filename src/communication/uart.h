@@ -20,4 +20,7 @@ SOFTWARE.
 void init_UART(uint8_t ubrr);
 void UART_putc(char c);
 void UART_puts(const char* string);
+void UART_pushc(char c);
+const char* UART_gets(void);
+void UART_flush(void);
 #endif

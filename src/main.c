@@ -17,6 +17,7 @@ SOFTWARE.
 #include "main.h"
 
 volatile uint8_t cycle = 0;
+volatile uint8_t main_flags = 0;
 
 int main(void){
     debug diode;
@@ -25,9 +26,16 @@ int main(void){
     sei();
 
     while(1){
+        if(main_flags & CMD_READY){
+            UART_puts(UART_gets());
+            UART_puts("\n\r");
+            main_flags &= ~CMD_READY;
+            UART_flush();
+        }
+        
         switch(diode.state){
-            case 0: if(!diode.tim) { diode.state = 1; diode.tim = 1000; PORTD &= ~(1 << DEBUG_DIODE); UART_puts("\rDiode off\n"); } break;
-            case 1: if(!diode.tim) { diode.state = 0; diode.tim = 1000; PORTD |= (1 << DEBUG_DIODE); UART_puts("\rDiode on\n"); } break;
+            case 0: if(!diode.tim) { diode.state = 1; diode.tim = 1000; PORTD &= ~(1 << DEBUG_DIODE); } break;
+            case 1: if(!diode.tim) { diode.state = 0; diode.tim = 1000; PORTD |= (1 << DEBUG_DIODE); } break;
         }
 
         if(diode.tim) --diode.tim;
@@ -51,4 +59,13 @@ void init_main(debug* d){
 
 ISR(TIMER2_COMP_vect){
     cycle ^= 0xFF;
+}
+ISR(USART_RXC_vect){
+    static char c;
+    c = UDR;
+    if(c == TERMINATING_CHAR){
+        c = '\0';
+        main_flags |= CMD_READY;
+    }
+    UART_pushc(c);
 }

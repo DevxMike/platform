@@ -22,6 +22,8 @@ SOFTWARE.
 
 /*---------------------------------UART------------------------------------*/
 #define UBRR_VALUE 103 //baud 9600bps
+#define TERMINATING_CHAR 'K'
+#define CMD_READY 1
 /*---------------------------------UART------------------------------------*/
 
 #define DEBUG_DIODE 0x04
