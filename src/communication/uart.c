@@ -13,6 +13,7 @@ SOFTWARE.
 
 #include "uart.h"
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct{
     char string[20];
@@ -76,4 +77,9 @@ const char* UART_gets(void){
 void UART_flush(void){
     memset(buffer.string, 0, buffer.max_len - 1);
     buffer.len = 0;
+}
+
+const char* int_to_str(int16_t value){
+    char buffer[20];
+    return itoa(value, buffer, 10);
 }

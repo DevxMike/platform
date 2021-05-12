@@ -21,8 +21,19 @@ SOFTWARE.
 typedef struct{
     uint16_t tim;
     uint8_t state;
+}cmd;
+
+typedef struct{
+    char command[20];
+    int16_t angle, current;
+    cmd cmd_automata;
+}main_vars_t;
+
+typedef struct{
+    uint16_t tim;
+    uint8_t state;
 }debug;
 
-void init_main(debug* d);
+void init_main(main_vars_t* m, debug* d);
 
 #endif
