@@ -24,6 +24,12 @@ void I2C_send_byte(uint8_t byte){
     while (!(TWCR & (1<<TWINT))) { continue; }
 }
 
+uint8_t I2C_read_byte(uint8_t ack_bit){
+    TWCR = (1 << TWINT) | (1 << TWEN) | (ack_bit << TWEA);
+    while(!(TWCR & (1 << TWINT))) { continue; }
+    return TWDR;
+}
+
 void I2C_stop(void){
     TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
 }
@@ -33,6 +39,18 @@ void I2C_send_buffer(uint8_t slave_adr, const uint8_t* buffer, uint8_t buffer_le
     I2C_send_byte(slave_adr);
     for(const uint8_t* buff_iter = buffer; buff_iter < buffer + buffer_len; ++buff_iter){
         I2C_send_byte(*buff_iter);
+    }
+    I2C_stop();
+}
+
+void I2C_read_buffer(uint8_t slave_adr, uint8_t read_adr, uint8_t* buffer, uint8_t buffer_len){
+    I2C_start();
+    I2C_send_byte(slave_adr);
+    I2C_send_byte(read_adr);
+    I2C_start();    
+    I2C_send_byte(slave_adr + 1);
+    while(buffer_len--){
+        I2C_read_byte(*buffer++);
     }
     I2C_stop();
 }

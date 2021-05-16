@@ -17,6 +17,6 @@ SOFTWARE.
 #include <avr/io.h>
 
 void I2C_send_buffer(uint8_t slave_adr, const uint8_t* buffer, uint8_t buffer_len);
-
+void I2C_read_buffer(uint8_t slave_adr, uint8_t read_adr, uint8_t* buffer, uint8_t buffer_len);
 
 #endif
