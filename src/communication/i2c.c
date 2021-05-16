@@ -50,7 +50,7 @@ void I2C_read_buffer(uint8_t slave_adr, uint8_t read_adr, uint8_t* buffer, uint8
     I2C_start();    
     I2C_send_byte(slave_adr + 1);
     while(buffer_len--){
-        I2C_read_byte(*buffer++);
+        *buffer++ = I2C_read_byte(buffer_len != 0? 1 : 0);
     }
     I2C_stop();
 }
