@@ -14,4 +14,9 @@ SOFTWARE.
 #ifndef i2c_h_
 #define i2c_h_
 
+#include <avr/io.h>
+
+void I2C_send_buffer(uint8_t slave_adr, const uint8_t* buffer, uint8_t buffer_len);
+
+
 #endif

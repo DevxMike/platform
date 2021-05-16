@@ -12,3 +12,27 @@ SOFTWARE.
 */
 
 #include "i2c.h"
+
+void I2C_start(void){
+    TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+    while (!(TWCR & (1<<TWINT))) { continue; }
+}
+
+void I2C_send_byte(uint8_t byte){
+    TWDR = byte;
+    TWCR = (1<<TWINT) | (1<<TWEN);
+    while (!(TWCR & (1<<TWINT))) { continue; }
+}
+
+void I2C_stop(void){
+    TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+}
+
+void I2C_send_buffer(uint8_t slave_adr, const uint8_t* buffer, uint8_t buffer_len){
+    I2C_start();
+    I2C_send_byte(slave_adr);
+    for(const uint8_t* buff_iter = buffer; buff_iter < buffer + buffer_len; ++buff_iter){
+        I2C_send_byte(*buff_iter);
+    }
+    I2C_stop();
+}
